@@ -11,8 +11,8 @@ using MyApp.Models;
 namespace MyApp.Migrations
 {
     [DbContext(typeof(MyappContext))]
-    [Migration("20231113191631_InitialCreate2")]
-    partial class InitialCreate2
+    [Migration("20231207094312_migration11")]
+    partial class migration11
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,29 @@ namespace MyApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("MyApp.Models.Post", b =>
+                {
+                    b.Property<string>("id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("auteurid")
+                        .HasColumnType("int");
+
+                    b.Property<string>("reponse")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("sujet")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("auteurid");
+
+                    b.ToTable("Posts");
+                });
 
             modelBuilder.Entity("MyApp.Models.Utilisateur", b =>
                 {
@@ -51,6 +74,17 @@ namespace MyApp.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Utilisateurs");
+                });
+
+            modelBuilder.Entity("MyApp.Models.Post", b =>
+                {
+                    b.HasOne("MyApp.Models.Utilisateur", "auteur")
+                        .WithMany()
+                        .HasForeignKey("auteurid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("auteur");
                 });
 #pragma warning restore 612, 618
         }

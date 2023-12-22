@@ -10,7 +10,7 @@ using MyApp.Models;
 
 namespace MyApp.Migrations
 {
-    [DbContext(typeof(MyAppContext))]
+    [DbContext(typeof(MyappContext))]
     [Migration("20231113190746_InitialCreate")]
     partial class InitialCreate
     {

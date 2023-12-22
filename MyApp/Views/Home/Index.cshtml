@@ -1,8 +1,61 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<style>
+    .logo {
+        display: block;
+        margin: 0 auto;
+        height:25%;
+        width:25%;
+    }
+    .btn{
+        background-color: #815861;
+        border-color: #815861;
+        
+    }
 
+        .btn:hover {
+            background-color: #F49DAF; 
+            border-color: #F49DAF;
+        }
+
+    .introduction {
+        margin-top: 20px;
+        font-size: 16px;
+        color: #555;
+        text-align: center;
+    }
+
+    .corner-images {
+        position: fixed;
+        width: 20%; 
+        height: 20%;
+    }
+
+    .top-left {
+        top: 0;
+        left: 0;
+    }
+
+   
+    .bottom-right {
+        bottom: 30%;
+        right: 0;
+    }
+</style>
+<img src="~/forum.png" class="logo"/>
+<div class="corner-images top-left"><img src="~/trait0.png" alt="Corner 1"></div>
+
+<div class="corner-images bottom-right"><img src="~/trait4.png" alt="Corner 4"></div>
+
+<br />
+<br />
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to YourLibreForum!</h1>
+    <br /><br />
+    <p class="introduction">
+        YourLibreForum is a free and open space for discussions on various topics. Join our community to engage in conversations, share ideas, and connect with others. We believe in the power of free expression and aim to provide a platform where everyone's voice can be heard.
+    </p>
+    <br /><br />
+    <a href="~/Utilisateurs/Create" class="btn btn-primary">Get started</a>
 </div>

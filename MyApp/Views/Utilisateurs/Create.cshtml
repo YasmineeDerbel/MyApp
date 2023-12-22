@@ -1,48 +1,90 @@
 ﻿@model MyApp.Models.Utilisateur
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Créer un compte";
 }
 
-<h1>Create</h1>
+<style>
+    body {
+        background-color: #f8f9fa; /* Couleur de fond */
+    }
 
-<h4>Utilisateur</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="username" class="control-label"></label>
-                <input asp-for="username" class="form-control" />
-                <span asp-validation-for="username" class="text-danger"></span>
+    .container {
+        background: linear-gradient(to right, #ffffff, #f0f0f0); /* Dégradé de couleur pour le conteneur */
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    }
+
+    .card {
+        background-color: #fff; /* Fond blanc de la carte */
+        border: 1px solid #dee2e6; /* Bordure légère */
+        border-radius: 8px;
+    }
+
+    .card-header {
+        background-color: #815861; /* Couleur d'en-tête de la carte */
+        color: #fff; /* Texte blanc dans l'en-tête */
+        border-bottom: 1px solid #815861; /* Bordure inférieure de l'en-tête */
+    }
+</style>
+<div class="text-center">
+    <h1 class="display-4">Welcome to YourLibreForum!</h1>
+    <p></p>
+</div>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="text-center">Créer un compte</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="username" class="control-label">Nom d'utilisateur :</label>
+                            <input asp-for="username" class="form-control" />
+                            <span asp-validation-for="username" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="password" class="control-label">Mot de passe :</label>
+                            <input asp-for="password" class="form-control" />
+                            <span asp-validation-for="password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="email" class="control-label">Adresse e-mail :</label>
+                            <input asp-for="email" class="form-control" />
+                            <span asp-validation-for="email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="valide" class="control-label">Valide :</label>
+                            <input asp-for="valide" class="form-control" />
+                            <span asp-validation-for="valide" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="role" class="control-label">role :</label>
+                            <input asp-for="role" class="form-control" />
+                            <span asp-validation-for="role" class="text-danger"></span>
+                        </div>
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary">Sign up</button>
+                        </div>
+                        <p>You already have an account?</p>
+                        <div class="form-group text-center">
+                            @*<button type="submit" class="btn btn-primary">Login</button>*@
+                            <a href="@Url.Action("Login", "Utilisateurs")" class="btn btn-primary">Login</a>
+                            
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="password" class="control-label"></label>
-                <input asp-for="password" class="form-control" />
-                <span asp-validation-for="password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="email" class="control-label"></label>
-                <input asp-for="email" class="form-control" />
-                <span asp-validation-for="email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="valide" class="control-label"></label>
-                <input asp-for="valide" class="form-control" />
-                <span asp-validation-for="valide" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

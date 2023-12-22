@@ -6,14 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyApp.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace MyApp.Controllers
 {
     public class UtilisateursController : Controller
     {
-        private readonly MyAppContext _context;
+        private readonly MyappContext _context;
 
-        public UtilisateursController(MyAppContext context)
+        public UtilisateursController(MyappContext context)
         {
             _context = context;
             Console.WriteLine("UtilisateursController Constructor");
@@ -58,12 +59,17 @@ namespace MyApp.Controllers
             return View();
         }
 
+        public IActionResult Login()
+        {
+            return View();
+        }
+
         // POST: Utilisateurs/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,username,password,email,valide")] Utilisateur utilisateur)
+        public async Task<IActionResult> Create([Bind("id,username,password,email,valide,role")] Utilisateur utilisateur)
         {
             if (ModelState.IsValid)
             {
@@ -95,7 +101,7 @@ namespace MyApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,username,password,email,valide")] Utilisateur utilisateur)
+        public async Task<IActionResult> Edit(int id, [Bind("id,username,password,email,valide,role")] Utilisateur utilisateur)
         {
             if (id != utilisateur.id)
             {
@@ -166,6 +172,38 @@ namespace MyApp.Controllers
         {
           return (_context.Utilisateurs?.Any(e => e.id == id)).GetValueOrDefault();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(string username, string password)
+        {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                // Handle invalid input
+                return RedirectToAction("Login"); // Redirect to the login page with an error message
+            }
+
+            var utilisateur = await _context.Utilisateurs
+                .FirstOrDefaultAsync(u => u.username == username && u.password == password);
+
+            if (utilisateur != null)
+            {
+                // Successful login, store user information in a session or cookie
+                // For simplicity, let's assume you have a session service to store user information
+                
+
+               
+                HttpContext.Session.SetString("Username", utilisateur.username);
+                HttpContext.Session.SetString("Userpwd", utilisateur.password.ToString());
+
+                return RedirectToAction("Index", "Home"); // Redirect to the home page or another appropriate page
+            }
+
+            // Failed login
+            // You may want to redirect back to the login page with an error message
+            return RedirectToAction("Login");
+        }
+
     }
 }
 
