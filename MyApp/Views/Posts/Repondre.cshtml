@@ -1,0 +1,14 @@
+﻿@model MyApp.Models.Post
+
+<h2>Respond to Post</h2>
+
+<form asp-controller="Posts" asp-action="Repondre" method="post">
+    <input type="hidden" asp-for="id" value="1" />
+
+    <div class="form-group">
+        <label for="contenu">Response Content:</label>
+        <textarea class="form-control" id="contenu" name="contenu" rows="3"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add Response</button>
+</form>

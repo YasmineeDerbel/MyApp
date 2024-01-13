@@ -1,6 +1,9 @@
-﻿namespace MyApp.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace MyApp.Models
 {
-    public class ApplicationUser
+    public class ApplicationUser : IdentityUser
     {
+       public int id;
     }
 }

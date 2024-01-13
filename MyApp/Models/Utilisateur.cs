@@ -1,6 +1,6 @@
 ﻿namespace MyApp.Models
 {
-    public class Utilisateur
+    public class Utilisateur 
     {
         public int id { get; set; }
         public string username { get; set; }

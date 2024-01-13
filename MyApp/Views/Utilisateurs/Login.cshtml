@@ -27,8 +27,37 @@
         color: #fff;
         border-bottom: 1px solid #815861;
     }
-</style>
 
+    .btn {
+        background-color: #815861;
+        border-color: #815861;
+    }
+
+        .btn:hover {
+            background-color: #F49DAF;
+            border-color: #F49DAF;
+        }
+
+    .corner-images {
+        position: fixed;
+        width: 20%;
+        height: 20%;
+    }
+
+    .top-left {
+        top: 0;
+        left: 0;
+    }
+
+
+    .bottom-right {
+        bottom: 30%;
+        right: 0;
+    }
+</style>
+<div class="corner-images top-left"><img src="~/trait0.png" alt="Corner 1"></div>
+
+<div class="corner-images bottom-right"><img src="~/trait4.png" alt="Corner 4"></div>
 <div class="text-center">
     <h1 class="display-4">Welcome to YourLibreForum!</h1>
     <p></p>
@@ -42,7 +71,7 @@
                     <h4 class="text-center">Login</h4>
                 </div>
                 <div class="card-body">
-                    <form asp-action="Login" method="post">
+                    <form  asp-action="@Url.Action("Login", "Utilisateurs")" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
                             <label asp-for="username" class="control-label">Nom d'utilisateur :</label>
@@ -55,7 +84,8 @@
                             <span asp-validation-for="password" class="text-danger"></span>
                         </div>
                         <div class="form-group text-center">
-                            <button type="submit" class="btn btn-primary">Login</button>
+                            @*<button type="submit" class="btn btn-primary">Login</button>*@
+                            <a href="@Url.Action("Index", "Posts")" class="btn btn-primary">Login</a>
                         </div>
                     </form>
 

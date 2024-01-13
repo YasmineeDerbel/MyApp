@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyApp.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication;
+using IAuthenticationService = MyApp.Models.IAuthenticationService;
 
 namespace MyApp.Controllers
 {
@@ -14,10 +17,17 @@ namespace MyApp.Controllers
     {
         private readonly MyappContext _context;
 
-        public UtilisateursController(MyappContext context)
+        private readonly SignInManager<ApplicationUser> _signInManager;
+
+        private readonly IAuthenticationService _authenticationService;
+
+
+        public UtilisateursController(MyappContext context, SignInManager<ApplicationUser> signInManager, IAuthenticationService authenticationService)
         {
             _context = context;
             Console.WriteLine("UtilisateursController Constructor");
+            _signInManager = signInManager;
+            _authenticationService = authenticationService;
         }
 
         // GET: Utilisateurs
@@ -61,8 +71,46 @@ namespace MyApp.Controllers
 
         public IActionResult Login()
         {
+
             return View();
+
         }
+
+         /*[HttpPost]
+         [ValidateAntiForgeryToken]
+         public async Task<IActionResult> Login(Utilisateur model, string returnUrl)
+         {
+             if (ModelState.IsValid)
+             {
+                 // Check user credentials against your authentication service
+                 bool isValidUser = _authenticationService.ValidateUser(model.username, model.password);
+
+
+                 if (isValidUser)
+                 {
+                     // Successful login logic
+
+                     // Check if there is a returnUrl, and redirect there if so
+                     if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                     {
+                         return Redirect(returnUrl);
+                     }
+
+                     // If no returnUrl or returnUrl is not a local URL, redirect to a default action
+                     return RedirectToAction("Index", "Home");
+                 }
+
+                 ModelState.AddModelError(string.Empty, "Invalid login attempt");
+             }
+
+             // If the model is not valid or login fails, return to the login view
+             return View(model);
+         }*/
+        
+
+
+
+
 
         // POST: Utilisateurs/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -163,14 +211,14 @@ namespace MyApp.Controllers
             {
                 _context.Utilisateurs.Remove(utilisateur);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool UtilisateurExists(int id)
         {
-          return (_context.Utilisateurs?.Any(e => e.id == id)).GetValueOrDefault();
+            return (_context.Utilisateurs?.Any(e => e.id == id)).GetValueOrDefault();
         }
 
         [HttpPost]
@@ -180,7 +228,8 @@ namespace MyApp.Controllers
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
                 // Handle invalid input
-                return RedirectToAction("Login"); // Redirect to the login page with an error message
+                Console.WriteLine("failed login");
+                return RedirectToAction("Login","Utilisateurs"); // Redirect to the login page with an error message
             }
 
             var utilisateur = await _context.Utilisateurs
@@ -190,22 +239,56 @@ namespace MyApp.Controllers
             {
                 // Successful login, store user information in a session or cookie
                 // For simplicity, let's assume you have a session service to store user information
-                
 
-               
+                Console.WriteLine("successful login");
+
                 HttpContext.Session.SetString("Username", utilisateur.username);
                 HttpContext.Session.SetString("Userpwd", utilisateur.password.ToString());
 
-                return RedirectToAction("Index", "Home"); // Redirect to the home page or another appropriate page
+                return RedirectToAction("Create", "Posts"); // Redirect to the home page or another appropriate page
             }
 
             // Failed login
             // You may want to redirect back to the login page with an error message
-            return RedirectToAction("Login");
+            Console.WriteLine("failed login");
+            return RedirectToAction("Login","Utilisateurs");
         }
+
+
+        /*[HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(Utilisateur model, string returnUrl)
+        {
+            if (ModelState.IsValid)
+            {
+                // Check user credentials against your authentication service
+                bool isValidUser = _authenticationService.ValidateUser(model.username, model.password);
+
+                if (isValidUser)
+                {
+                    // Successful login logic
+
+                    // Check if there is a returnUrl, and redirect there if so
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+
+                    // If no returnUrl or returnUrl is not a local URL, redirect to the "Create" action in the "Posts" controller
+                    return RedirectToAction("Create", "Posts");
+                }
+
+                ModelState.AddModelError(string.Empty, "Invalid login attempt");
+            }
+
+            // If the model is not valid or login fails, return to the login view
+            return View(model);
+        }
+        */
 
     }
 }
+
 
 
 

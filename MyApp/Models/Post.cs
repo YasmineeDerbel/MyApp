@@ -1,14 +1,21 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Azure;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyApp.Models
 {
     public class Post
     {
         [Required]
-        public string id { get; set; }  
+        public int id { get; set; }  
         public string sujet { get; set; }
-        
+
         [Required]
-        public Utilisateur auteur { get; set; }
+        public int auteurid { get; set; }
+        public ICollection<Response> Responses { get; set; } = new List<Response>();
+        //public Utilisateur Auteur { get; set; }
+        //public List<Response> Reponses { get; set; }
+
+
     }
 }

@@ -35,6 +35,10 @@
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Views\LoginPartial\" />
+	</ItemGroup>
+
 	<ProjectExtensions>
 		<VisualStudio>
 			<UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/asmdef.json" />

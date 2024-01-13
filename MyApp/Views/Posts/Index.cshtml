@@ -4,45 +4,88 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .logo {
+        display: block;
+        margin: 0 auto;
+        height:25%;
+        width:25%;
+    }
+    .btn{
+        background-color: #815861;
+        border-color: #815861;
+        
+    }
 
-<h1>Index</h1>
+        .btn:hover {
+            background-color: #F49DAF; 
+            border-color: #F49DAF;
+        }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.sujet)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.reponse)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.id)
-                </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.sujet)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.reponse)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    .introduction {
+        margin-top: 20px;
+        font-size: 16px;
+        color: #555;
+        text-align: center;
+    }
+
+    .corner-images {
+        position: fixed;
+        width: 20%; 
+        height: 20%;
+    }
+
+    .top-left {
+        top: 0;
+        left: 0;
+    }
+
+   
+    .bottom-right {
+        bottom: 30%;
+        right: 0;
+    }
+    </style>
+<img src="~/forum.png" class="logo" />
+<div class="corner-images top-left"><img src="~/trait0.png" alt="Corner 1"></div>
+
+<div class="corner-images bottom-right"><img src="~/trait4.png" alt="Corner 4"></div>
+
+<div class="container mt-5">
+    
+
+    
+
+    @foreach (var item in Model)
+    {
+        <div class="row justify-content-center">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text">Subject: @Html.DisplayFor(modelItem => item.sujet)</p>
+                        <div class="btn-group">
+                            <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-warning">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.id" class="btn btn-info">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-danger">Delete</a>
+                            <a asp-action="Repondre" asp-route-id="@item.id" class="btn btn-success">Répondre</a>
+                        </div>
+                       @* <div>
+                            <h5>Réponses:</h5>
+                            @foreach (var reponse in item.reponses)
+                            {
+                                <p>@reponse.contenu</p>
+                            }
+                        </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    
+
+        <a href="@Url.Action("Create", "Posts")" class="btn btn-primary">Add Post</a>
+    
+
+    </div>
+
+

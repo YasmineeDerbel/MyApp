@@ -10,7 +10,7 @@ using MyApp.Models;
 namespace MyApp.Migrations
 {
     [DbContext(typeof(MyappContext))]
-    partial class MyAppContextModelSnapshot : ModelSnapshot
+    partial class MyappContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -23,15 +23,14 @@ namespace MyApp.Migrations
 
             modelBuilder.Entity("MyApp.Models.Post", b =>
                 {
-                    b.Property<string>("id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<int>("auteurid")
                         .HasColumnType("int");
-
-                    b.Property<string>("reponse")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("sujet")
                         .IsRequired()
@@ -39,9 +38,32 @@ namespace MyApp.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("auteurid");
-
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("MyApp.Models.Response", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<int>("Auteurid")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Postid")
+                        .HasColumnType("int");
+
+                    b.Property<string>("contenu")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("Postid");
+
+                    b.ToTable("Response");
                 });
 
             modelBuilder.Entity("MyApp.Models.Utilisateur", b =>
@@ -77,15 +99,18 @@ namespace MyApp.Migrations
                     b.ToTable("Utilisateurs");
                 });
 
-            modelBuilder.Entity("MyApp.Models.Post", b =>
+            modelBuilder.Entity("MyApp.Models.Response", b =>
                 {
-                    b.HasOne("MyApp.Models.Utilisateur", "auteur")
-                        .WithMany()
-                        .HasForeignKey("auteurid")
+                    b.HasOne("MyApp.Models.Post", null)
+                        .WithMany("Responses")
+                        .HasForeignKey("Postid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.Navigation("auteur");
+            modelBuilder.Entity("MyApp.Models.Post", b =>
+                {
+                    b.Navigation("Responses");
                 });
 #pragma warning restore 612, 618
         }

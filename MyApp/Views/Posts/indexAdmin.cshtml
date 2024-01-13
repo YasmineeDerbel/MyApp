@@ -1,0 +1,87 @@
+﻿@model IEnumerable<MyApp.Models.Post>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .logo {
+        display: block;
+        margin: 0 auto;
+        height: 25%;
+        width: 25%;
+    }
+
+    .btn {
+        background-color: #815861;
+        border-color: #815861;
+    }
+
+        .btn:hover {
+            background-color: #F49DAF;
+            border-color: #F49DAF;
+        }
+
+    .introduction {
+        margin-top: 20px;
+        font-size: 16px;
+        color: #555;
+        text-align: center;
+    }
+
+    .corner-images {
+        position: fixed;
+        width: 20%;
+        height: 20%;
+    }
+
+    .top-left {
+        top: 0;
+        left: 0;
+    }
+
+
+    .bottom-right {
+        bottom: 30%;
+        right: 0;
+    }
+</style>
+<img src="~/forum.png" class="logo" />
+<div class="corner-images top-left"><img src="~/trait0.png" alt="Corner 1"></div>
+
+<div class="corner-images bottom-right"><img src="~/trait4.png" alt="Corner 4"></div>
+<div class="container mt-5">
+    <h1>Forum</h1>
+
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Create New Post</a>
+    </p>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Subject</th>
+                    <th>Author ID</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.id)</td>
+                        <td>@Html.DisplayFor(modelItem => item.sujet)</td>
+                        <td>@Html.DisplayFor(modelItem => item.auteurid)</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-sm btn-warning">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.id" class="btn btn-sm btn-info">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

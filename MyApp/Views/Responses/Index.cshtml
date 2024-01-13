@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Post>
+
+    @foreach (var post in Model)
+{
+    <div>
+        <h3>@post.sujet</h3>
+
+
+        <h4>Responses:</h4>
+        @foreach (var response in post.Responses)
+        {
+        <p>@response.contenu</p>
+        }
+
+        <!-- Form for creating a new response -->
+        <form asp-action="Create" asp-controller="Responses" method="get">
+            <input type="hidden" name="postId" value="@post.id" />
+            <textarea name="contenu" rows="3" placeholder="Type your response"></textarea>
+            <button type="submit">Add Response</button>
+        </form>
+    </div>
+    <hr />
+}

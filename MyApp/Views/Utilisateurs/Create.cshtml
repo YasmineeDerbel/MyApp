@@ -27,7 +27,36 @@
         color: #fff; /* Texte blanc dans l'en-tête */
         border-bottom: 1px solid #815861; /* Bordure inférieure de l'en-tête */
     }
+
+    .btn {
+        background-color: #815861;
+        border-color: #815861;
+    }
+
+        .btn:hover {
+            background-color: #F49DAF;
+            border-color: #F49DAF;
+        }
+    .corner-images {
+        position: fixed;
+        width: 20%;
+        height: 20%;
+    }
+
+    .top-left {
+        top: 0;
+        left: 0;
+    }
+
+
+    .bottom-right {
+        bottom: 30%;
+        right: 0;
+    }
 </style>
+<div class="corner-images top-left"><img src="~/trait0.png" alt="Corner 1"></div>
+
+<div class="corner-images bottom-right"><img src="~/trait4.png" alt="Corner 4"></div>
 <div class="text-center">
     <h1 class="display-4">Welcome to YourLibreForum!</h1>
     <p></p>
@@ -63,14 +92,14 @@
                             <span asp-validation-for="valide" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="role" class="control-label">role :</label>
+                            <label asp-for="role" class="control-label">Role :</label>
                             <input asp-for="role" class="form-control" />
                             <span asp-validation-for="role" class="text-danger"></span>
                         </div>
                         <div class="form-group text-center">
                             <button type="submit" class="btn btn-primary">Sign up</button>
                         </div>
-                        <p>You already have an account?</p>
+                        <p><b>You already have an account?</b></p>
                         <div class="form-group text-center">
                             @*<button type="submit" class="btn btn-primary">Login</button>*@
                             <a href="@Url.Action("Login", "Utilisateurs")" class="btn btn-primary">Login</a>

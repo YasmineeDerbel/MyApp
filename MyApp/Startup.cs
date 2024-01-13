@@ -35,7 +35,11 @@ public class Startup
             options.Cookie.IsEssential = true;
         });
 
-       
+        services.AddIdentity<ApplicationUser, IdentityRole>()
+     .AddEntityFrameworkStores<MyappContext>()
+     .AddDefaultTokenProviders();
+
+        services.AddScoped<IAuthenticationService, IAuthenticationService>();
 
         /* services.AddIdentity<MyAppUser, IdentityRole>()
          .AddEntityFrameworkStores<MyappContext>()
@@ -77,13 +81,16 @@ public class Startup
             endpoints.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            endpoints.MapRazorPages();
+            endpoints.MapControllerRoute(
+        name: "Repondre",
+        pattern: "Posts/Repondre/{postId}",
+        defaults: new { controller = "Posts", action = "Repondre" }
+    );
         });
 
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapRazorPages();
-               
-        });
+       
 
         
     }
