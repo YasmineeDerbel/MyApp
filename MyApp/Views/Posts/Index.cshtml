@@ -62,20 +62,25 @@
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <p class="card-text">Subject: @Html.DisplayFor(modelItem => item.sujet)</p>
+                       <b> <p class="card-text">Subject: @Html.DisplayFor(modelItem => item.sujet)</p> </b>
+                        <p class="card-text"> @Html.DisplayFor(modelItem => item.contenuSujet)</p>
                         <div class="btn-group">
                             <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-warning">Edit</a>
                             <a asp-action="Details" asp-route-id="@item.id" class="btn btn-info">Details</a>
                             <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-danger">Delete</a>
                             <a asp-action="Repondre" asp-route-id="@item.id" class="btn btn-success">Répondre</a>
                         </div>
-                       @* <div>
-                            <h5>Réponses:</h5>
-                            @foreach (var reponse in item.reponses)
-                            {
-                                <p>@reponse.contenu</p>
-                            }
-                        </div>*@
+                        <div>
+                            <p>Réponses:</p>
+                            
+                            <ul>
+                                @foreach (var response in @item.Responses)
+                                {
+                                    <li>@response.contenu</li>
+                                }
+                            </ul>
+
+                        </div>
                     </div>
                 </div>
             </div>

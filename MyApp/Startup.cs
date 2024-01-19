@@ -83,11 +83,7 @@ public class Startup
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             endpoints.MapRazorPages();
-            endpoints.MapControllerRoute(
-        name: "Repondre",
-        pattern: "Posts/Repondre/{postId}",
-        defaults: new { controller = "Posts", action = "Repondre" }
-    );
+            
         });
 
        

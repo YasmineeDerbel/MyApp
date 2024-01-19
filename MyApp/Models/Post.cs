@@ -9,13 +9,13 @@ namespace MyApp.Models
         [Required]
         public int id { get; set; }  
         public string sujet { get; set; }
+        public string contenuSujet { get; set; }
 
         [Required]
         public int auteurid { get; set; }
-        public ICollection<Response> Responses { get; set; } = new List<Response>();
-        //public Utilisateur Auteur { get; set; }
-        //public List<Response> Reponses { get; set; }
-
+        
+        public ICollection<Response> Responses { get; set; } 
+      
 
     }
 }

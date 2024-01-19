@@ -1,13 +1,14 @@
-﻿@model MyApp.Models.Post
+﻿@model MyApp.Views.Post
 
-<h2>Respond to Post</h2>
+<h2>Respond to Post: @Model.sujet</h2>
 
 <form asp-controller="Posts" asp-action="Repondre" method="post">
-    <input type="hidden" asp-for="id" value="1" />
+    <input type="hidden" asp-for="Postid" />
+    <!-- Other input fields for your response model -->
 
     <div class="form-group">
         <label for="contenu">Response Content:</label>
-        <textarea class="form-control" id="contenu" name="contenu" rows="3"></textarea>
+        <textarea class="form-control" id="contenu" name="contenu" rows="3" asp-for="Contenu"></textarea>
     </div>
 
     <button type="submit" class="btn btn-primary">Add Response</button>

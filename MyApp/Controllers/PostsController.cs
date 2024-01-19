@@ -31,30 +31,9 @@ namespace MyApp.Controllers
                           Problem("Entity set 'MyappContext.Posts'  is null.");
         }
         
-        /*public async Task<IActionResult> Index()
-        {
-            var posts = await _context.Posts.ToListAsync();
-            return View(posts);
-        }
-        */
+        
 
-        // GET: Posts/Details/5
-        public async Task<IActionResult> Details(int id)
-        {
-            if (id == null || _context.Posts == null)
-            {
-                return NotFound();
-            }
-
-            var post = await _context.Posts
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (post == null)
-            {
-                return NotFound();
-            }
-
-            return View(post);
-        }
+       
 
         // GET: Posts/Create
         public IActionResult Create()
@@ -62,48 +41,11 @@ namespace MyApp.Controllers
             return View();
         }
 
-        // POST: Posts/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        /*[HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,sujet,auteurid")] Post post)
-        {
-            
-            if (ModelState.IsValid)
-            {
-                
-                    // Retrieve the current user's information
-                    var currentUser = await _userManager.GetUserAsync(User);
-
-                    // Check if the user is authenticated
-                    if (currentUser == null)
-                    {
-                        // Handle the case where the user is not authenticated
-                        return RedirectToAction("Login", "Utilisateurs"); // Redirect to the login page or handle as needed
-                    }
-
-                // Set the auteurid property
-                //post.auteurid = currentUser.id;
-                post.auteurid = 1;
-
-                    // Add the post to the context
-                    _context.Add(post);
-
-                    // Save changes to the database
-                    await _context.SaveChangesAsync();
-
-                    return RedirectToAction(nameof(Index));
-                }
-                
-            
-
-            return View(post);
-        }*/
+      
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,sujet,auteurid")] Post post)
+        public async Task<IActionResult> Create([Bind("id,sujet,contenuSujet,auteurid")] Post post)
         {
             if (ModelState.IsValid)
             {
@@ -125,42 +67,61 @@ namespace MyApp.Controllers
         }
 
 
-
-        /*public IActionResult Repondre(int id)
-        {
-            // Assuming you have a service or repository to get the post details
-            var post = _context.Posts.Find(id);
-
-            if (post == null)
-            {
-                // Handle the case where the post is not found, for example, redirect to an error page.
-                return RedirectToAction("Error");
-            }
-
-            // You can create a new instance of ResponseViewModel or another model that suits your needs
-            var responseModel = new Response
-            {
-                Postid = id
-                // Add any other properties you need for creating a response
-            };
-
-            return View(responseModel);
-        }*/
-
+        [HttpGet]
         public IActionResult Repondre(int postId)
         {
-            // Récupérez le post associé à l'ID postId depuis la base de données
-            // Post post = _postService.GetPostById(postId);
             var post = _context.Posts.Find(postId);
-            if (post != null)
+            var responseViewModel = new Response
             {
-                return View(post);
-            }
-            // Créez une instance de Response, si nécessaire
-            Response response = new Response();
+                Postid = postId
+               
+            };
 
-            // Assurez-vous de passer le modèle correct à la vue
+            return View(responseViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Repondre(Response responseViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                // Save the response to the database and associate it with the post
+                var response = new Response
+                {
+                    contenu = responseViewModel.contenu,
+                    Auteurid = 1,
+                    Postid = 1
+                };
+
+                _context.Response.Add(response);
+                _context.SaveChanges();
+
+                // Redirect to the details view of the post or wherever you want to go after responding
+                return RedirectToAction("Details", "Posts", new { id = responseViewModel.Postid });
+            }
+
+            // If the model state is not valid, return to the view with the model
             return View();
+        }
+
+
+        // GET: Posts/Details/5
+        public async Task<IActionResult> Details(int id)
+        {
+            /*if (id == null || _context.Posts == null)
+            {
+                return NotFound();
+            }*/
+
+            var post = await _context.Posts
+                .FirstOrDefaultAsync(m => m.id == id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            _context.Posts.Include(p => p.Responses).FirstOrDefault(p => p.id == id);
+
+            return View(post);
         }
 
 
@@ -185,7 +146,7 @@ namespace MyApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,sujet,reponse")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("id,sujet,contenuSujet")] Post post)
         {
             if (id != post.id)
             {

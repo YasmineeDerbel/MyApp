@@ -15,12 +15,7 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <!-- Hide the id and reponse fields -->
-            <div class="form-group">
-                <label asp-for="id" class="control-label"></label>
-                <input asp-for="id" class="form-control" />
-                <span asp-validation-for="id" class="text-danger"></span>
-            </div>
+            
 
             <div class="form-group">
                 <label asp-for="sujet" class="control-label"></label>
@@ -28,7 +23,12 @@
                 <input asp-for="sujet" class="form-control" style="font-size: 3em;" />
                 <span asp-validation-for="sujet" class="text-danger"></span>
             </div>
-
+            <div class="form-group">
+                <label asp-for="contenuSujet" class="control-label"></label>
+                <!-- Larger input field for sujet -->
+                <input asp-for="contenuSujet" class="form-control" style="font-size: 1em;" />
+                <span asp-validation-for="contenuSujet" class="text-danger"></span>
+            </div>
            
 
             <!-- Change the button text to "Add" and make it larger -->
